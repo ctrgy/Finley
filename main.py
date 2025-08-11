@@ -2,7 +2,7 @@ import streamlit as st
 
 # --- PAGE CONFIG ---
 st.set_page_config(
-    page_title="Finley - FP&A Helper",
+    page_title="Finley - FP&A Memory & Q&A",
     page_icon="🤖",
     layout="centered"
 )
@@ -40,32 +40,29 @@ body {
     max-width: 600px;
     margin: 0 auto 2rem auto;
 }
-.category-card {
+.card-section {
+    max-width: 700px;
+    margin: 0 auto 2rem auto;
+    padding: 20px 25px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(44,123,229,0.2);
-    padding: 20px 25px;
-    margin-bottom: 20px;
-    max-width: 650px;
-    margin-left: auto;
-    margin-right: auto;
-    transition: transform 0.2s ease;
 }
-.category-card:hover {
-    transform: translateY(-5px);
-}
-.category-title {
+.card-title {
     font-weight: 700;
-    font-size: 1.4rem;
-    margin-bottom: 6px;
+    font-size: 1.5rem;
+    margin-bottom: 12px;
     color: #2C7BE5;
+    text-align: center;
 }
-.category-desc {
+.card-desc {
     font-size: 1rem;
     color: #444444;
+    line-height: 1.4;
+    margin-bottom: 8px;
 }
 .form-section {
-    max-width: 650px;
+    max-width: 700px;
     margin: 2rem auto 3rem auto;
     padding: 25px;
     background: white;
@@ -79,27 +76,22 @@ body {
     font-size: 1.1rem !important;
     font-family: 'Poppins', sans-serif !important;
     resize: vertical !important;
-    min-height: 120px !important;
-    box-shadow: inset 0 3px 8px rgb(0 0 0 / 0.07) !important;
-}
-.stSelectbox select {
-    border-radius: 12px !important;
-    border: 1.8px solid #ddd !important;
-    padding: 10px !important;
-    font-size: 1rem !important;
-    font-family: 'Poppins', sans-serif !important;
+    min-height: 140px !important;
     box-shadow: inset 0 3px 8px rgb(0 0 0 / 0.07) !important;
 }
 .stButton > button {
     background-color: #2C7BE5 !important;
     color: white !important;
     border-radius: 18px !important;
-    padding: 12px 30px !important;
-    font-size: 1.25rem !important;
+    padding: 14px 38px !important;
+    font-size: 1.3rem !important;
     font-weight: 700 !important;
     border: none !important;
     cursor: pointer !important;
     transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
+    min-width: 180px;
 }
 .stButton > button:hover {
     background-color: #225db0 !important;
@@ -132,74 +124,71 @@ st.markdown(f"""
 <div class="header">
   <div class="logo">{finley_logo_svg}</div>
   <h1 class="title">Finley</h1>
-  <p class="tagline">Your friendly FP&amp;A helper for ideas, feedback, questions, and more.</p>
+  <p class="tagline">Your FP&A memory and question assistant — always learning, remembering, and helping.</p>
 </div>
 """, unsafe_allow_html=True)
 
-# --- CATEGORY CARDS ---
-st.markdown("### How can Finley help you today?")
-categories = {
-    "💡 Share Ideas": "Suggest new financial models, reporting approaches, or analysis methods.",
-    "📝 Give Feedback": "Provide input on FP&A processes, reports, or tools.",
-    "❓ Ask Questions": "Seek clarification on forecasts, budgets, or financial data.",
-    "📊 Report Issues": "Flag errors, data inconsistencies, or system challenges in finance.",
-    "🎉 Celebrate Wins": "Highlight successful projects, targets met, or analysis insights."
-}
-cols = st.columns(2)
-for i, (title, desc) in enumerate(categories.items()):
-    with cols[i % 2]:
-        st.markdown(f"""
-        <div class="category-card">
-            <div class="category-title">{title}</div>
-            <div class="category-desc">{desc}</div>
-        </div>
-        """, unsafe_allow_html=True)
+# --- HOW FINLEY HELPS ---
+st.markdown('<div class="card-section">')
+st.markdown('<div class="card-title">How Finley can help you</div>')
 
-# --- FORM ---
+st.markdown("""
+<div style="margin-bottom: 20px;">
+  <strong>🧠 Store Memories</strong><br>
+  Save key insights, recurring issues, wins, and learnings so Finley can remember and assist you later.<br>
+  <em>Examples:</em><br>
+  &nbsp;&nbsp;• Note recurring budget discrepancies<br>
+  &nbsp;&nbsp;• Celebrate team wins on forecasts or projects<br>
+  &nbsp;&nbsp;• Document process improvements or learnings
+</div>
+<div>
+  <strong>❓ Ask Questions</strong><br>
+  Ask Finley about budgets, forecasts, financial data, or historical context to get quick, contextual answers.<br>
+  <em>Examples:</em><br>
+  &nbsp;&nbsp;• What caused the Q2 revenue variance?<br>
+  &nbsp;&nbsp;• Who owns the updated expense report?<br>
+  &nbsp;&nbsp;• When was the last revision to the forecast assumptions?
+</div>
+""", unsafe_allow_html=True)
+st.markdown('</div>')
+
+# --- INPUT FORM ---
 st.markdown('<div class="form-section">')
-st.markdown("### ✍️ Submit your message")
-with st.form("input_form"):
-    category = st.selectbox("Select a category", list(categories.keys()))
-    placeholder_map = {
-        "💡 Share Ideas": "Example: Propose adding a new revenue forecasting model.",
-        "📝 Give Feedback": "Example: Suggest improvements to the month-end close process.",
-        "❓ Ask Questions": "Example: Clarify assumptions behind the Q3 budget variance.",
-        "📊 Report Issues": "Example: Highlight discrepancies in expense reporting.",
-        "🎉 Celebrate Wins": "Example: Recognize the team for exceeding the sales forecast."
-    }
-    message = st.text_area("Your message", placeholder=placeholder_map.get(category, "Type your message here..."))
-    submitted = st.form_submit_button("🚀 Send to Finley")
+st.markdown("### ✍️ Add your commentary or question")
+with st.form("input_form", clear_on_submit=True):
+    message = st.text_area("Type here...", placeholder="Type your ideas, insights, or questions about FP&A...")
+    submitted = st.form_submit_button("💾 Save to Finley")
 
 if submitted:
     if message.strip():
-        st.success("✅ Your message has been sent! Thanks for sharing.")
+        st.success("💡 Memory saved! Finley is learning and remembering your insights.")
         st.session_state.setdefault("submissions", [])
-        st.session_state.submissions.append({"category": category, "message": message})
+        st.session_state.submissions.append({"message": message})
     else:
-        st.error("Please enter a message before sending.")
+        st.error("⚠️ Please enter something before saving.")
 st.markdown('</div>', unsafe_allow_html=True)
 
 # --- RECENT SUBMISSIONS ---
 if "submissions" in st.session_state and st.session_state.submissions:
-    st.markdown("### 📋 Recent messages")
-    for sub in st.session_state.submissions[-5:]:
-        st.markdown(f"**{sub['category']}**: {sub['message']}")
+    st.markdown("### 📋 Recent memories & questions")
+    for sub in st.session_state.submissions[-5:][::-1]:  # show newest first
+        st.markdown(f"- {sub['message']}")
 
 # --- FAQ ---
 with st.expander("❓ Frequently Asked Questions"):
     st.markdown("""
-    **Q:** Is this anonymous?  
-    **A:** Yes, your messages are not linked to your identity unless you share it.
+    **Q:** Is my input anonymous?  
+    **A:** Yes, Finley stores your insights without linking them to your identity unless you include your name.
 
-    **Q:** Who reviews my messages?  
-    **A:** Messages go to your team’s designated reviewers.
+    **Q:** Who can see my saved memories and questions?  
+    **A:** Only authorized FP&A team members or reviewers.
 
-    **Q:** Can I attach files?  
-    **A:** Not currently, only text messages.
+    **Q:** Can I attach files or images?  
+    **A:** Not at this time — text only to keep it simple.
 
-    **Q:** Is this a replacement for HR?  
-    **A:** No, it helps HR and management get feedback faster.
+    **Q:** Is Finley a replacement for ERP or BI tools?  
+    **A:** No, Finley is a smart memory layer that complements your existing tools.
 
-    **Q:** Can I edit or delete messages?  
-    **A:** Not yet, but improvements are coming!
+    **Q:** Can I edit or delete saved inputs?  
+    **A:** Not yet, but we’re working on it!
     """)
