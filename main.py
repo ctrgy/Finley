@@ -138,4 +138,43 @@ st.markdown("""
 # --- EXAMPLES BOX ---
 st.markdown("""
 <div class="examples">
-<strong>Examples of what you can share or ask:</strong><
+<strong>Examples of what you can share or ask:</strong><br>
+- “Why did sales dip in Q2 for the Northeast region?”<br>
+- “Explain the increase in marketing expenses last month.”<br>
+- “Notes on supply chain delays affecting inventory.”<br>
+- “Questions about forecast assumptions for next quarter.”<br>
+- “Comments on budget revisions or unusual costs.”<br>
+</div>
+""", unsafe_allow_html=True)
+
+# --- FORM ---
+category = st.selectbox(
+    "Select a category that best fits your comment or question:",
+    [
+        "Revenue / Sales",
+        "Expenses / Costs",
+        "Budget / Forecast",
+        "Operations",
+        "Marketing",
+        "Supply Chain",
+        "HR / Staffing",
+        "General Finance",
+        "Other"
+    ]
+)
+
+comment = st.text_area("Your comment or question", placeholder="Type your thoughts here...")
+
+if st.button("Submit"):
+    if comment.strip():
+        st.session_state.setdefault("submissions", [])
+        st.session_state.submissions.append({"category": category, "comment": comment})
+        st.success("✅ Your comment has been submitted!")
+    else:
+        st.error("Please enter a comment before submitting.")
+
+# --- RECENT SUBMISSIONS ---
+if "submissions" in st.session_state and st.session_state.submissions:
+    st.markdown("### Recent Submissions")
+    for s in st.session_state.submissions[-5:]:
+        st.markdown(f"**{s['category']}**: {s['comment']}")
