@@ -2,7 +2,7 @@ import streamlit as st
 
 # --- PAGE CONFIG ---
 st.set_page_config(
-    page_title="Finley - Friendly Workplace Helper",
+    page_title="Finley - FP&A Helper",
     page_icon="🤖",
     layout="centered"
 )
@@ -132,18 +132,18 @@ st.markdown(f"""
 <div class="header">
   <div class="logo">{finley_logo_svg}</div>
   <h1 class="title">Finley</h1>
-  <p class="tagline">Your friendly workplace helper for ideas, feedback, questions, and more.</p>
+  <p class="tagline">Your friendly FP&amp;A helper for ideas, feedback, questions, and more.</p>
 </div>
 """, unsafe_allow_html=True)
 
 # --- CATEGORY CARDS ---
 st.markdown("### How can Finley help you today?")
 categories = {
-    "💡 Share Ideas": "Suggest ways to improve projects, workflows, or the office environment.",
-    "📝 Give Feedback": "Provide constructive feedback on meetings, processes, or tools.",
-    "❓ Ask Questions": "Get clarification on policies, procedures, or workplace expectations.",
-    "📊 Report Issues": "Discreetly flag challenges or concerns for management.",
-    "🎉 Celebrate Wins": "Highlight team successes and individual contributions."
+    "💡 Share Ideas": "Suggest new financial models, reporting approaches, or analysis methods.",
+    "📝 Give Feedback": "Provide input on FP&A processes, reports, or tools.",
+    "❓ Ask Questions": "Seek clarification on forecasts, budgets, or financial data.",
+    "📊 Report Issues": "Flag errors, data inconsistencies, or system challenges in finance.",
+    "🎉 Celebrate Wins": "Highlight successful projects, targets met, or analysis insights."
 }
 cols = st.columns(2)
 for i, (title, desc) in enumerate(categories.items()):
@@ -161,11 +161,11 @@ st.markdown("### ✍️ Submit your message")
 with st.form("input_form"):
     category = st.selectbox("Select a category", list(categories.keys()))
     placeholder_map = {
-        "💡 Share Ideas": "Example: Add standing desks to improve comfort.",
-        "📝 Give Feedback": "Example: Weekly meetings are too long and could be shorter.",
-        "❓ Ask Questions": "Example: How do I request time off for medical appointments?",
-        "📊 Report Issues": "Example: The project tracking tool has frequent outages.",
-        "🎉 Celebrate Wins": "Example: Congrats to the sales team for hitting their targets!"
+        "💡 Share Ideas": "Example: Propose adding a new revenue forecasting model.",
+        "📝 Give Feedback": "Example: Suggest improvements to the month-end close process.",
+        "❓ Ask Questions": "Example: Clarify assumptions behind the Q3 budget variance.",
+        "📊 Report Issues": "Example: Highlight discrepancies in expense reporting.",
+        "🎉 Celebrate Wins": "Example: Recognize the team for exceeding the sales forecast."
     }
     message = st.text_area("Your message", placeholder=placeholder_map.get(category, "Type your message here..."))
     submitted = st.form_submit_button("🚀 Send to Finley")
