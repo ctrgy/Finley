@@ -155,13 +155,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER ---
-st.markdown("""
-<div class="header">
-  <div class="logo">🤖</div>
-  <h1 class="title">Finley</h1>
-</div>
-""", unsafe_allow_html=True)
+
 
 st.markdown(
     '<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', 
