@@ -43,14 +43,14 @@ body {
 .card-section {
     max-width: 700px;
     margin: 0 auto 2rem auto;
-    padding: 20px 25px;
+    padding: 20px 30px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(44,123,229,0.2);
 }
 .card-title {
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin-bottom: 12px;
     color: #2C7BE5;
     text-align: center;
@@ -58,13 +58,13 @@ body {
 .card-desc {
     font-size: 1rem;
     color: #444444;
-    line-height: 1.4;
+    line-height: 1.5;
     margin-bottom: 8px;
 }
 .form-section {
     max-width: 700px;
     margin: 2rem auto 3rem auto;
-    padding: 25px;
+    padding: 30px 30px;
     background: white;
     border-radius: 15px;
     box-shadow: 0 6px 15px rgba(44,123,229,0.15);
@@ -103,6 +103,17 @@ body {
 #MainMenu, footer, header {
     visibility: hidden;
 }
+.icon {
+    font-size: 1.8rem;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.example {
+    color: #666;
+    font-style: italic;
+    margin-left: 1.5rem;
+    margin-bottom: 10px;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -132,29 +143,28 @@ st.markdown(f"""
 st.markdown('<div class="card-section">')
 st.markdown('<div class="card-title">How Finley can help you</div>')
 
-st.markdown("""
-<div style="margin-bottom: 20px;">
-  <strong>🧠 Store Memories</strong><br>
-  Save key insights, recurring issues, wins, and learnings so Finley can remember and assist you later.<br>
-  <em>Examples:</em><br>
-  &nbsp;&nbsp;• Note recurring budget discrepancies<br>
-  &nbsp;&nbsp;• Celebrate team wins on forecasts or projects<br>
-  &nbsp;&nbsp;• Document process improvements or learnings
-</div>
-<div>
-  <strong>❓ Ask Questions</strong><br>
-  Ask Finley about budgets, forecasts, financial data, or historical context to get quick, contextual answers.<br>
-  <em>Examples:</em><br>
-  &nbsp;&nbsp;• What caused the Q2 revenue variance?<br>
-  &nbsp;&nbsp;• Who owns the updated expense report?<br>
-  &nbsp;&nbsp;• When was the last revision to the forecast assumptions?
-</div>
-""", unsafe_allow_html=True)
+with st.expander("🧠 Store Memories: Capture insights, learnings, and wins"):
+    st.markdown("""
+    - Note recurring budget discrepancies to track trends over time.<br>
+    - Celebrate team wins on forecasts, projects, or analysis milestones.<br>
+    - Document process improvements, assumptions, or key decisions.<br>
+    <div class="example">Example: “Q2 revenue shortfall due to delayed product launch.”</div>
+    """ , unsafe_allow_html=True)
+
+with st.expander("❓ Ask Questions: Quickly get context and answers"):
+    st.markdown("""
+    - What caused the Q2 revenue variance?<br>
+    - Who owns the updated expense report?<br>
+    - When was the last revision to forecast assumptions?<br>
+    <div class="example">Example: “What’s the current cash flow forecast?”</div>
+    """, unsafe_allow_html=True)
+
 st.markdown('</div>')
 
 # --- INPUT FORM ---
 st.markdown('<div class="form-section">')
 st.markdown("### ✍️ Add your commentary or question")
+
 with st.form("input_form", clear_on_submit=True):
     message = st.text_area("Type here...", placeholder="Type your ideas, insights, or questions about FP&A...")
     submitted = st.form_submit_button("💾 Save to Finley")
@@ -171,7 +181,7 @@ st.markdown('</div>', unsafe_allow_html=True)
 # --- RECENT SUBMISSIONS ---
 if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### 📋 Recent memories & questions")
-    for sub in st.session_state.submissions[-5:][::-1]:  # show newest first
+    for sub in reversed(st.session_state.submissions[-5:]):  # newest first
         st.markdown(f"- {sub['message']}")
 
 # --- FAQ ---
