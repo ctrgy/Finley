@@ -62,7 +62,7 @@ st.markdown("""
     }
     .card p {
         color: #444444;
-        font-size: 0.8rem;
+        font-size: 1.0rem;
         line-height: 1.0;
         margin: 0;
     }
