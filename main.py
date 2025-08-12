@@ -1,4 +1,5 @@
 import streamlit as st
+from /Users/ryanyoung/Finley/input_text/commentary_or_question import classify_submission
 
 # --- PAGE SETUP ---
 st.set_page_config(
@@ -141,6 +142,9 @@ if st.button("Submit"):
             st.session_state.submissions = []
         st.session_state.submissions.append({"comment": comment})
         st.success("I'll remember that for you")
+        
+        xxx
+        
     else:
         st.error("Please enter a comment before submitting.")
 
