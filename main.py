@@ -76,14 +76,6 @@ st.markdown("""
         min-height: 120px !important;
         box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
     }
-    .stSelectbox select {
-        border-radius: 10px !important;
-        border: 1.5px solid #ccc !important;
-        padding: 8px !important;
-        font-size: 1rem !important;
-        font-family: 'Montserrat', sans-serif !important;
-        box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
-    }
     .stButton > button {
         background-color: #1767a0 !important;
         color: white !important;
@@ -94,6 +86,10 @@ st.markdown("""
         border: none !important;
         cursor: pointer !important;
         transition: background-color 0.3s ease;
+        margin-top: 10px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     .stButton > button:hover {
         background-color: #125a7e !important;
@@ -124,14 +120,18 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', 
+    unsafe_allow_html=True)
 
+# --- INPUT AREA ---
 comment = st.text_area(placeholder="Remember commentary or ask Finley questions here...")
 
 if st.button("Submit"):
     if comment.strip():
-        st.session_state.setdefault("submissions", [])
-        st.session_state.submissions.append({"category": category, "comment": comment})
+        if "submissions" not in st.session_state:
+            st.session_state.submissions = []
+        st.session_state.submissions.append({"comment": comment})
         st.success("✅ Your comment has been submitted!")
     else:
         st.error("Please enter a comment before submitting.")
@@ -139,9 +139,8 @@ if st.button("Submit"):
 # --- RECENT SUBMISSIONS ---
 if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
-    for s in st.session_state.submissions[-5:]:
-        st.markdown(f"**{s['category']}**: {s['comment']}")
-
+    for s in reversed(st.session_state.submissions[-5:]):
+        st.markdown(f"- {s['comment']}")
 
 # --- DESCRIPTION CARD ---
 st.markdown("""
