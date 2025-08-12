@@ -163,21 +163,3 @@ st.markdown("""
 - “Comments on budget revisions or unusual costs.”<br>
 </div>
 """, unsafe_allow_html=True)
-
-# --- FORM ---
-category = st.selectbox(
-    "Select a category that best fits your comment or question:",
-    [
-        "Revenue / Sales",
-        "Expenses / Costs",
-        "Budget / Forecast",
-        "Operations",
-        "Marketing",
-        "Supply Chain",
-        "HR / Staffing",
-        "General Finance",
-        "Other"
-    ]
-)
-
-
