@@ -1,6 +1,38 @@
 import streamlit as st
-
 # --- PAGE SETUP ---
+st.set_page_config(
+    page_title="Finley - Your Financial Memory",
+    page_icon="🤖",
+    layout="centered"
+)
+
+# --- CUSTOM CSS for font and styling ---
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f5f7fa;
+    color: #222222;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+}
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1767a0;
+    letter-spacing: 1.2px;
+    margin: 0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+# --- LOGO SVG ---
 logo_svg = """
 <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:auto;">
   <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
@@ -9,8 +41,9 @@ logo_svg = """
 </svg>
 """
 
+# --- HEADER WITH LOGO ---
 st.markdown(f"""
-<div class="header" style="display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:1rem;">
+<div class="header">
   {logo_svg}
   <h1 class="title">Finley</h1>
 </div>
