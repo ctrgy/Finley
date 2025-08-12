@@ -125,7 +125,7 @@ st.markdown(
     unsafe_allow_html=True)
 
 # --- INPUT AREA ---
-comment = st.text_area("", placeholder="Remember commentary or ask Finley questions here...")
+comment = st.text_area("", placeholder="Give Finley commentary to remember, or ask it questions here...")
 
 if st.button("Submit"):
     if comment.strip():
