@@ -1,11 +1,20 @@
 import streamlit as st
 
 # --- PAGE SETUP ---
-st.set_page_config(
-    page_title="Finley - Your Financial Memory",
-    page_icon="🤖",
-    layout="centered"
-)
+logo_svg = """
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block; margin:auto;">
+  <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
+  <circle cx="35" cy="45" r="7" fill="black"/>
+  <circle cx="65" cy="45" r="7" fill="black"/>
+</svg>
+"""
+
+st.markdown(f"""
+<div class="header" style="display:flex; align-items:center; justify-content:center; gap:15px; margin-bottom:1rem;">
+  {logo_svg}
+  <h1 class="title">Finley</h1>
+</div>
+""", unsafe_allow_html=True)
 
 # --- CUSTOM CSS ---
 st.markdown("""
