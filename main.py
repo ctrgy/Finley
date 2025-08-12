@@ -132,7 +132,7 @@ if st.button("Submit"):
         if "submissions" not in st.session_state:
             st.session_state.submissions = []
         st.session_state.submissions.append({"comment": comment})
-        st.success("✅ Your comment has been submitted!")
+        st.success("I'll remember that for you")
     else:
         st.error("Please enter a comment before submitting.")
 
