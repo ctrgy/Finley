@@ -126,7 +126,7 @@ st.markdown("""
 
 st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
-comment = st.text_area("Your comment or question", placeholder="Type your thoughts here...")
+comment = st.text_area(placeholder="Remember commentary or ask Finley questions here...")
 
 if st.button("Submit"):
     if comment.strip():
