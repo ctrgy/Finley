@@ -41,19 +41,40 @@ logo_svg = """
 </svg>
 """
 
-# --- HEADER WITH LOGO ---
+st.markdown("""
+<style>
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1767a0;
+    letter-spacing: 1.2px;
+    margin: 0;
+}
+</style>
+""", unsafe_allow_html=True)
+
+logo_svg = """
+<svg width="60" height="60" viewBox="0 0 100 100" 
+    xmlns="http://www.w3.org/2000/svg" style="display:inline-block;">
+  <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
+  <circle cx="35" cy="45" r="7" fill="black"/>
+  <circle cx="65" cy="45" r="7" fill="black"/>
+</svg>
+"""
+
 st.markdown(f"""
 <div class="header">
   {logo_svg}
   <h1 class="title">Finley</h1>
 </div>
 """, unsafe_allow_html=True)
-
-
-# --- CUSTOM CSS ---
-st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
     body {
         font-family: 'Montserrat', sans-serif;
