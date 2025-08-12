@@ -62,8 +62,8 @@ st.markdown("""
     }
     .card p {
         color: #444444;
-        font-size: 1rem;
-        line-height: 1.5;
+        font-size: 0.5rem;
+        line-height: 1.0;
         margin: 0;
     }
     .stTextArea textarea {
@@ -142,15 +142,6 @@ if "submissions" in st.session_state and st.session_state.submissions:
     for s in reversed(st.session_state.submissions[-5:]):
         st.markdown(f"- {s['comment']}")
 
-# --- DESCRIPTION CARD ---
-st.markdown("""
-<div class="card">
-  <h3>About Finley</h3>
-  <p>Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers. It acts as a centralized commentary engine where month-end notes are stored, organized, and recalled intelligently across teams and time.</p>
-  <p>Finley reduces knowledge loss, prevents information silos, and bridges insights from field teams to executives.</p>
-</div>
-""", unsafe_allow_html=True)
-
 # --- EXAMPLES BOX ---
 st.markdown("""
 <div class="examples">
@@ -160,5 +151,14 @@ st.markdown("""
 - “Notes on supply chain delays affecting inventory.”<br>
 - “Questions about forecast assumptions for next quarter.”<br>
 - “Comments on budget revisions or unusual costs.”<br>
+</div>
+""", unsafe_allow_html=True)
+
+# --- DESCRIPTION CARD ---
+st.markdown("""
+<div class="card">
+  <h3>About Finley</h3>
+  <p>Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers. It acts as a centralized commentary engine where month-end notes are stored, organized, and recalled intelligently across teams and time.</p>
+  <p>Finley reduces knowledge loss, prevents information silos, and bridges insights from field teams to executives.</p>
 </div>
 """, unsafe_allow_html=True)
