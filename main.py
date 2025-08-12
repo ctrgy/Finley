@@ -1,5 +1,4 @@
 import streamlit as st
-from /Users/ryanyoung/Finley/input_text/commentary_or_question import classify_submission
 
 # --- PAGE SETUP ---
 st.set_page_config(
