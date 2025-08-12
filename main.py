@@ -12,14 +12,11 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
-    /* General page styling */
     body {
         font-family: 'Montserrat', sans-serif;
         background: #f5f7fa;
         color: #222222;
     }
-
-    /* Header container */
     .header {
         display: flex;
         align-items: center;
@@ -44,16 +41,17 @@ st.markdown("""
         font-size: 1.25rem;
         margin-top: -10px;
         margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
     }
-
-    /* Cards for info */
     .card {
         background: white;
         border-radius: 12px;
         padding: 20px 25px;
         box-shadow: 0 4px 10px rgb(0 0 0 / 0.08);
         margin-bottom: 2rem;
-        max-width: 600px;
+        max-width: 700px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -68,8 +66,6 @@ st.markdown("""
         line-height: 1.5;
         margin: 0;
     }
-
-    /* Form elements */
     .stTextArea textarea {
         border-radius: 10px !important;
         border: 1.5px solid #ccc !important;
@@ -77,7 +73,7 @@ st.markdown("""
         font-size: 1.1rem !important;
         font-family: 'Montserrat', sans-serif !important;
         resize: vertical !important;
-        min-height: 100px !important;
+        min-height: 120px !important;
         box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
     }
     .stSelectbox select {
@@ -102,11 +98,21 @@ st.markdown("""
     .stButton > button:hover {
         background-color: #125a7e !important;
     }
-
-    /* Hide Streamlit default menu/footer */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    .examples {
+        background: #eaf3fc;
+        border-left: 6px solid #1767a0;
+        padding: 15px 20px;
+        margin-bottom: 2rem;
+        font-style: italic;
+        color: #264d73;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 8px;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -118,24 +124,43 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="tagline">Your AI-powered financial memory and narrative system</div>', unsafe_allow_html=True)
+st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
-# --- INFO CARDS ---
+# --- DESCRIPTION CARD ---
 st.markdown("""
 <div class="card">
-  <h3>What Finley is:</h3>
-  <p>A safe, simple way to share your team’s financial insights and questions.</p>
+  <h3>About Finley</h3>
+  <p>Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers. It acts as a centralized commentary engine where month-end notes are stored, organized, and recalled intelligently across teams and time.</p>
+  <p>Finley reduces knowledge loss, prevents information silos, and bridges insights from field teams to executives.</p>
 </div>
-<div class="card">
-  <h3>What Finley isn’t:</h3>
-  <p>Not a gossip collector or a black hole for feedback — just your finance team’s smart memory.</p>
+""", unsafe_allow_html=True)
+
+# --- EXAMPLES BOX ---
+st.markdown("""
+<div class="examples">
+<strong>Examples of what you can share or ask:</strong><br>
+- “Why did sales dip in Q2 for the Northeast region?”<br>
+- “Explain the increase in marketing expenses last month.”<br>
+- “Notes on supply chain delays affecting inventory.”<br>
+- “Questions about forecast assumptions for next quarter.”<br>
+- “Comments on budget revisions or unusual costs.”<br>
 </div>
 """, unsafe_allow_html=True)
 
 # --- FORM ---
 category = st.selectbox(
-    "Select a category",
-    ["Finance", "Operations", "Sales", "General", "Other"]
+    "Select a category that best fits your comment or question:",
+    [
+        "Revenue / Sales",
+        "Expenses / Costs",
+        "Budget / Forecast",
+        "Operations",
+        "Marketing",
+        "Supply Chain",
+        "HR / Staffing",
+        "General Finance",
+        "Other"
+    ]
 )
 
 comment = st.text_area("Your comment or question", placeholder="Type your thoughts here...")
