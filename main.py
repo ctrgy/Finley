@@ -165,6 +165,28 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+import streamlit as st
+
+# --- FILE / PHOTO UPLOAD BOX ---
+st.markdown("""
+<div style="
+    border: 2px dashed #ccc;
+    padding: 1rem;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+">
+    <strong>Add File</strong> or <strong>Add Photo</strong><br>
+    <span style="font-size:14px; color:#555;">Click below to choose a file</span>
+</div>
+""", unsafe_allow_html=True)
+
+uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"])
+if uploaded_file:
+    st.success(f"Uploaded: {uploaded_file.name}")
+
+
 # --- DESCRIPTION CARD ---
 st.markdown("""
 <div class="card">
