@@ -342,12 +342,80 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+import streamlit as st
+
+# --- Custom CSS for unified chat box with floating upload ---
+st.markdown("""
+<style>
+.chat-container {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.08);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.chat-textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1.5px solid #ccc;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 120px;
+    resize: vertical;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
+}
+.upload-btn-label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #1767a0;
+    color: white;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+}
+.upload-btn-label:hover {
+    background-color: #125a7e;
+}
+.upload-input {
+    display: none;
+}
+.send-btn {
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.7rem 2.2rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.send-btn:hover {
+    background-color: #125a7e;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- Chat Box Container ---
 st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 
-# File upload inside container
-uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file_upload")
-st.markdown('<button class="upload-btn">Upload File</button>', unsafe_allow_html=True)
+# Hidden file uploader
+uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file_upload", label_visibility="collapsed")
+
+# Label acting as button
+st.markdown(f"""
+<label for="file_upload" class="upload-btn-label">Upload File</label>
+""", unsafe_allow_html=True)
 
 # Text area
 comment = st.text_area("", placeholder="Give Finley commentary, upload files/photos or ask it questions here...", key="comment_box", height=120)
@@ -365,6 +433,8 @@ if st.button("Send", key="send_btn"):
         })
         st.success("Memory saved!")
         st.session_state.comment_box = ""
+        # Reset uploaded file
+        st.session_state.file_upload = None
     else:
         st.error("Please enter a comment or upload a file before sending.")
 
