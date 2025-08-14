@@ -1,64 +1,57 @@
 import streamlit as st
 
-# Page setup
+# --- PAGE CONFIG ---
 st.set_page_config(
-    page_title="Finley - Your Financial Memory",
+    page_title="Finley",
     layout="centered",
     initial_sidebar_state="expanded"
 )
 
-# Remove the toggle arrows
+# --- REMOVE SIDEBAR TOGGLE ---
 st.markdown("""
 <style>
 [data-testid="collapsedControl"] {
     display: none !important;
 }
-section[data-testid="stSidebar"],
-div[data-testid="stSidebar"] {
+section[data-testid="stSidebar"], div[data-testid="stSidebar"] {
     min-width: 320px !important;
     width: 320px !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Sidebar content
+# --- SIDEBAR CONTENT ---
 st.sidebar.title("Finley")
 st.sidebar.write("Your financial memory and assistant.")
 
-# Main title
-st.title("Chat with Finley")
-
-# Chat history display (optional placeholder)
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-for msg in st.session_state.messages:
-    st.write(f"**{msg['role']}**: {msg['content']}")
-
-# Chat input row
-col1, col2 = st.columns([6, 1])
-with col1:
-    user_message = st.text_input(
-        "Type your message...",
-        label_visibility="collapsed"
-    )
-with col2:
-    send_button = st.button("Send")
-
-# When send is clicked
-if send_button and user_message.strip():
-    st.session_state.messages.append({"role": "You", "content": user_message})
-    st.session_state.messages.append({"role": "Finley", "content": "Got your message!"})
-    st.experimental_rerun()
-
-# Upload section (completely separate)
-st.markdown("#### Upload files or photos:")
-uploaded_files = st.file_uploader(
-    "Upload Files",
-    accept_multiple_files=True,
-    type=None
+# --- CHAT BOX ---
+comment = st.text_area(
+    "",
+    placeholder="Give Finley commentary or ask it questions here...",
+    key="comment_box",
+    height=120
 )
 
-if uploaded_files:
-    for file in uploaded_files:
-        st.write(f"Uploaded: {file.name}")
+# --- FILE UPLOAD BELOW CHAT BOX ---
+uploaded_file = st.file_uploader(
+    "Upload File/Photo",
+    type=["jpg", "jpeg", "png", "pdf", "docx"],
+    key="file_upload"
+)
+
+# --- SAVE COMMENT BUTTON ---
+if st.button("Send to Finley"):
+    if comment.strip():
+        if "submissions" not in st.session_state:
+            st.session_state.submissions = []
+        st.session_state.submissions.append({"comment": comment})
+        st.success("Memory saved")
+        st.session_state.comment_box = ""  # Clear text area after sending
+    else:
+        st.error("Please enter a comment before sending.")
+
+# --- RECENT SUBMISSIONS ---
+if "submissions" in st.session_state and st.session_state.submissions:
+    st.markdown("### Recent Submissions")
+    for s in reversed(st.session_state.submissions[-5:]):
+        st.markdown(f"- {s['comment']}")
