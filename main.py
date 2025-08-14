@@ -45,33 +45,47 @@ body {
     margin-right: auto;
 }
 
-.comment-box textarea {
-    border-radius: 10px !important;
-    border: 1.5px solid #ccc !important;
-    padding: 12px !important;
-    font-size: 1.1rem !important;
-    font-family: 'Montserrat', sans-serif !important;
-    resize: vertical !important;
-    min-height: 120px !important;
-    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
+/* Chat box */
+.chat-box {
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: #ffffff;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
+    font-family: 'Montserrat', sans-serif;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
 }
 
+/* Upload button inside chat box */
 .upload-btn {
     background-color: #1767a0;
     color: white;
     border: none;
-    padding: 0.7rem 2.2rem;
+    padding: 0.5rem 1.5rem;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     border-radius: 8px;
     cursor: pointer;
-    margin-top: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
+
 .upload-btn:hover {
     background-color: #125a7e;
+}
+
+.chat-textarea textarea {
+    border: none !important;
+    outline: none !important;
+    font-size: 1.1rem !important;
+    min-height: 120px !important;
+    width: 100% !important;
+    resize: vertical !important;
+    margin-top: 40px; /* leaves space for upload button */
 }
 
 .stButton > button {
@@ -158,24 +172,22 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# --- CHAT BOX WITH UPLOAD ---
+st.markdown('<div class="chat-box">', unsafe_allow_html=True)
 
-# --- COMMENT INPUT & FILE UPLOAD ---
-st.markdown('<div class="comment-box">', unsafe_allow_html=True)
+# Upload button inside chat box
+uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file")
+st.button("UPLOAD FILE", key="upload_btn")
+
+# Chat text area
 comment = st.text_area(
     "",
     placeholder="Give Finley commentary, upload files/photos or ask it questions here...",
     key="comment",
     height=120
 )
-uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file")
-st.markdown('</div>', unsafe_allow_html=True)
 
-# --- UPLOAD BUTTON ---
-if st.button("Upload File/Photo"):
-    if uploaded_file:
-        st.success(f"Uploaded: {uploaded_file.name}")
-    else:
-        st.warning("Please select a file to upload.")
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- SAVE COMMENT BUTTON ---
 if st.button("Save to Finley"):
