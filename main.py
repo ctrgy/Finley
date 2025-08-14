@@ -153,6 +153,20 @@ if "submissions" in st.session_state and st.session_state.submissions:
     for s in reversed(st.session_state.submissions[-5:]):
         st.markdown(f"- {s['comment']}")
 
+# --- FILE / PHOTO UPLOAD BOX ---
+import streamlit as st
+
+uploaded_file = st.file_uploader(
+    "Drag and drop file or photo here",
+    type=["jpg", "jpeg", "png", "pdf", "docx"],
+    label_visibility="visible"
+)
+
+if uploaded_file:
+    st.success(f"Uploaded: {uploaded_file.name}")
+
+
+
 # --- EXAMPLES BOX ---
 st.markdown("""
 <div class="examples">
@@ -164,17 +178,6 @@ st.markdown("""
 - “Comments on budget revisions or unusual costs.”<br>
 </div>
 """, unsafe_allow_html=True)
-
-import streamlit as st
-
-uploaded_file = st.file_uploader(
-    "Drag and drop file or photo here",
-    type=["jpg", "jpeg", "png", "pdf", "docx"],
-    label_visibility="visible"
-)
-
-if uploaded_file:
-    st.success(f"Uploaded: {uploaded_file.name}")
 
 
 
