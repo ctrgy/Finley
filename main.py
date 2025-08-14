@@ -1,13 +1,27 @@
 import streamlit as st
 
-# --- REMOVE SIDEBAR TOGGLE ---
-st.markdown("""
-<style>
-[data-testid="collapsedControl"] {
-    display: none !important;
-}
-</style>
-""", unsafe_allow_html=True)
+# --- PAGE CONFIG ---
+st.set_page_config(page_title="Finley Chat", layout="wide")
+
+# --- PERMANENT SIDEBAR ---
+with st.sidebar:
+    st.image("your_logo.png", width=150)  # Logo
+    st.title("Finley")
+    st.markdown("This is your AI companion for commentary and questions.")
+    st.markdown("### Example prompts:")
+    st.markdown("- What's happening in this document?")
+    st.markdown("- Summarize this photo.")
+    st.markdown("- Give me insights from this PDF.")
+
+# --- REMOVE SIDEBAR TOGGLE BUTTON ---
+hide_sidebar_style = """
+    <style>
+        [data-testid="collapsedControl"] {
+            display: none;
+        }
+    </style>
+"""
+st.markdown(hide_sidebar_style, unsafe_allow_html=True)
 
 # --- CHAT BOX ---
 comment = st.text_area(
@@ -40,4 +54,3 @@ if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
     for s in reversed(st.session_state.submissions[-5:]):
         st.markdown(f"- {s['comment']}")
-
