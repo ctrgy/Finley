@@ -133,6 +133,21 @@ st.markdown(f"""
 st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
 # --- SIDEBAR ---
+st.set_page_config(
+    page_title="My App",
+    layout="wide",
+    initial_sidebar_state="expanded"  # always open
+)
+
+hide_sidebar_style = """
+    <style>
+        [data-testid="collapsedControl"] {
+            display: none;
+        }
+    </style>
+"""
+st.markdown(hide_sidebar_style, unsafe_allow_html=True)
+
 st.sidebar.markdown("## About Finley")
 st.sidebar.markdown("""
 Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
