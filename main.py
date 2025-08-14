@@ -3,11 +3,10 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    page_icon="🤖",
     layout="centered"
 )
 
-# --- CUSTOM CSS for font and styling ---
+# --- CUSTOM CSS ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
@@ -17,6 +16,7 @@ body {
     background: #f5f7fa;
     color: #222222;
 }
+
 .header {
     display: flex;
     flex-direction: row;
@@ -25,6 +25,7 @@ body {
     gap: 15px;
     margin-bottom: 1rem;
 }
+
 .title {
     font-size: 3rem;
     font-weight: 700;
@@ -32,38 +33,19 @@ body {
     letter-spacing: 1.2px;
     margin: 0;
 }
+
 .tagline {
     text-align: center;
     color: #555555;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     margin-top: -10px;
-    margin-bottom: 2rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px 25px;
-    box-shadow: 0 4px 10px rgb(0 0 0 / 0.08);
     margin-bottom: 2rem;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
 }
-.card h3 {
-    color: #1767a0;
-    margin-bottom: 10px;
-    font-weight: 600;
-}
-.card p {
-    color: #444444;
-    font-size: 1.0rem;
-    line-height: 1.0;
-    margin: 0;
-}
-.stTextArea textarea {
+
+.comment-box textarea {
     border-radius: 10px !important;
     border: 1.5px solid #ccc !important;
     padding: 12px !important;
@@ -73,6 +55,25 @@ body {
     min-height: 120px !important;
     box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
 }
+
+.upload-btn {
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.7rem 2.2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.upload-btn:hover {
+    background-color: #125a7e;
+}
+
 .stButton > button {
     background-color: #1767a0 !important;
     color: white !important;
@@ -83,43 +84,50 @@ body {
     border: none !important;
     cursor: pointer !important;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10px;
 }
 .stButton > button:hover {
     background-color: #125a7e !important;
 }
+
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
+
 .examples {
     background: #eaf3fc;
-    border-left: 6px solid #1767a0;
-    padding: 15px 20px;
-    margin-bottom: 2rem;
-    font-style: italic;
-    color: #264d73;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
+    border-left: 4px solid #1767a0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    max-width: 250px;
+    margin-bottom: 1rem;
+}
+
+.upload-note {
+    font-size: 0.85rem;
+    color: #333333;
+    margin-top: 10px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    background-color: #f0f4f8;
 }
 </style>
 """, unsafe_allow_html=True)
 
 # --- LOGO SVG ---
 logo_svg = """
-<svg width="60" height="60" viewBox="0 0 100 100" 
-    xmlns="http://www.w3.org/2000/svg" style="display:inline-block;">
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;">
   <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
   <circle cx="35" cy="45" r="7" fill="black"/>
   <circle cx="65" cy="45" r="7" fill="black"/>
 </svg>
 """
 
-# --- HEADER WITH LOGO ---
+# --- HEADER ---
 st.markdown(f"""
 <div class="header">
   {logo_svg}
@@ -127,46 +135,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# --- TAGLINE ---
-st.markdown(
-    '<div class="tagline">An AI-powered memory and narrative system built for FP&amp;A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', 
-    unsafe_allow_html=True)
-
-# --- INPUT AREA ---
-comment = st.text_area("", placeholder="Give Finley commentary to remember, or ask it questions here...")
-
-if st.button("Submit"):
-    if comment.strip():
-        if "submissions" not in st.session_state:
-            st.session_state.submissions = []
-        st.session_state.submissions.append({"comment": comment})
-        st.success("I'll remember that for you")
-        
-        xxx
-        
-    else:
-        st.error("Please enter a comment before submitting.")
-
-# --- RECENT SUBMISSIONS ---
-if "submissions" in st.session_state and st.session_state.submissions:
-    st.markdown("### Recent Submissions")
-    for s in reversed(st.session_state.submissions[-5:]):
-        st.markdown(f"- {s['comment']}")
-
-# --- FILE / PHOTO UPLOAD BOX ---
-import streamlit as st
-
-uploaded_file = st.file_uploader(
-    "Drag and drop file or photo here",
-    type=["jpg", "jpeg", "png", "pdf", "docx"],
-    label_visibility="visible"
-)
-
-if uploaded_file:
-    st.success(f"Uploaded: {uploaded_file.name}")
-
-
-import streamlit as st
+st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
 # --- SIDEBAR ---
 st.sidebar.markdown("## About Finley")
@@ -177,11 +146,54 @@ Finley remembers not just what happened, but why — helping your finance team t
 - Reduces knowledge loss and silos
 """)
 
-st.sidebar.markdown("### Examples of what you can share or ask:")
 st.sidebar.markdown("""
-- “Why did sales dip in Q2 for the Northeast region?”  
-- “Explain the increase in marketing expenses last month.”  
-- “Notes on supply chain delays affecting inventory.”  
-- “Questions about forecast assumptions for next quarter.”  
-- “Comments on budget revisions or unusual costs.”  
-""")
+<div class="examples">
+<strong>Examples of what you can share or ask:</strong><br>
+- “Why did sales dip in Q2 for the Northeast region?”<br>
+- “Explain the increase in marketing expenses last month.”<br>
+- “Notes on supply chain delays affecting inventory.”<br>
+- “Questions about forecast assumptions for next quarter.”<br>
+- “Comments on budget revisions or unusual costs.”<br>
+</div>
+""", unsafe_allow_html=True)
+
+st.sidebar.markdown("""
+<div class="upload-note">
+You can upload files or photos for Finley to remember or analyze for you.
+</div>
+""", unsafe_allow_html=True)
+
+# --- COMMENT INPUT & FILE UPLOAD ---
+st.markdown('<div class="comment-box">', unsafe_allow_html=True)
+comment = st.text_area(
+    "",
+    placeholder="Give Finley commentary, upload files/photos or ask it questions here...",
+    key="comment",
+    height=120
+)
+uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file")
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- UPLOAD BUTTON ---
+if st.button("Upload File/Photo"):
+    if uploaded_file:
+        st.success(f"Uploaded: {uploaded_file.name}")
+    else:
+        st.warning("Please select a file to upload.")
+
+# --- SAVE COMMENT BUTTON ---
+if st.button("Save to Finley"):
+    if comment.strip():
+        if "submissions" not in st.session_state:
+            st.session_state.submissions = []
+        st.session_state.submissions.append({"comment": comment})
+        st.success("Memory saved")
+        st.session_state.comment = ""  # Clear text area
+    else:
+        st.error("Please enter a comment before saving.")
+
+# --- RECENT SUBMISSIONS ---
+if "submissions" in st.session_state and st.session_state.submissions:
+    st.markdown("### Recent Submissions")
+    for s in reversed(st.session_state.submissions[-5:]):
+        st.markdown(f"- {s['comment']}")
