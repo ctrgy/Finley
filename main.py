@@ -19,7 +19,6 @@ body {
 
 .header {
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 15px;
@@ -45,47 +44,44 @@ body {
     margin-right: auto;
 }
 
-/* Chat box */
 .chat-box {
-    border: 2px solid #ccc;
+    background: white;
     border-radius: 12px;
-    padding: 12px;
-    background-color: #ffffff;
-    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
-    font-family: 'Montserrat', sans-serif;
+    padding: 15px 20px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.08);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     position: relative;
 }
 
-/* Upload button inside chat box */
+.chat-box textarea {
+    width: 100%;
+    border-radius: 10px !important;
+    border: 1.5px solid #ccc !important;
+    padding: 12px !important;
+    font-size: 1.1rem !important;
+    font-family: 'Montserrat', sans-serif !important;
+    resize: vertical !important;
+    min-height: 120px !important;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
+}
+
 .upload-btn {
-    background-color: #1767a0;
-    color: white;
-    border: none;
-    padding: 0.5rem 1.5rem;
-    font-weight: 700;
-    font-size: 0.95rem;
-    border-radius: 8px;
-    cursor: pointer;
     position: absolute;
     top: 10px;
     right: 10px;
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
 }
-
 .upload-btn:hover {
     background-color: #125a7e;
-}
-
-.chat-textarea textarea {
-    border: none !important;
-    outline: none !important;
-    font-size: 1.1rem !important;
-    min-height: 120px !important;
-    width: 100% !important;
-    resize: vertical !important;
-    margin-top: 40px; /* leaves space for upload button */
 }
 
 .stButton > button {
@@ -119,15 +115,6 @@ header {visibility: hidden;}
     font-size: 0.9rem;
     max-width: 250px;
     margin-bottom: 1rem;
-}
-
-.upload-note {
-    font-size: 0.85rem;
-    color: #333333;
-    margin-top: 10px;
-    padding: 5px 8px;
-    border-radius: 5px;
-    background-color: #f0f4f8;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -163,7 +150,7 @@ Finley remembers not just what happened, but why — helping your finance team t
 
 st.sidebar.markdown("""
 <div class="examples">
-<strong>Examples of what you can share or ask:</strong><br>
+<strong>Examples:</strong><br>
 - “Why did sales dip in Q2 for the Northeast region?”<br>
 - “Explain the increase in marketing expenses last month.”<br>
 - “Notes on supply chain delays affecting inventory.”<br>
@@ -172,36 +159,38 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CHAT BOX WITH UPLOAD ---
+# --- CHAT BOX WITH FILE UPLOAD ---
 st.markdown('<div class="chat-box">', unsafe_allow_html=True)
 
-# Upload button inside chat box
-uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"], key="file")
-st.button("UPLOAD FILE", key="upload_btn")
+# File uploader inside chat box (drag & drop + click)
+uploaded_file = st.file_uploader("", type=["jpg","jpeg","png","pdf","docx"], key="file", label_visibility="collapsed")
 
-# Chat text area
-comment = st.text_area(
-    "",
-    placeholder="Give Finley commentary, upload files/photos or ask it questions here...",
-    key="comment",
-    height=120
-)
+# Text area
+comment = st.text_area("", placeholder="Give Finley commentary, upload files/photos, or ask it questions here...", key="comment", height=120)
+
+# Upload button inside chat box (top-right corner)
+st.markdown('<button class="upload-btn" onclick="">UPLOAD FILE</button>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
-# --- SAVE COMMENT BUTTON ---
+# Save button below chat box
 if st.button("Save to Finley"):
-    if comment.strip():
+    if comment.strip() or uploaded_file:
         if "submissions" not in st.session_state:
             st.session_state.submissions = []
-        st.session_state.submissions.append({"comment": comment})
+        st.session_state.submissions.append({
+            "comment": comment,
+            "file": uploaded_file.name if uploaded_file else None
+        })
         st.success("Memory saved")
         st.session_state.comment = ""  # Clear text area
+        st.session_state.file = None
     else:
-        st.error("Please enter a comment before saving.")
+        st.error("Please enter a comment or upload a file before saving.")
 
 # --- RECENT SUBMISSIONS ---
 if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
     for s in reversed(st.session_state.submissions[-5:]):
-        st.markdown(f"- {s['comment']}")
+        file_note = f" (Uploaded: {s['file']})" if s['file'] else ""
+        st.markdown(f"- {s['comment']}{file_note}")
