@@ -17,6 +17,34 @@ body {
     color: #222222;
 }
 
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1767a0;
+    letter-spacing: 1.2px;
+    margin: 0;
+}
+
+.tagline {
+    text-align: center;
+    color: #555555;
+    font-size: 1.2rem;
+    margin-top: -10px;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .chat-box {
     background: white;
     border-radius: 12px;
@@ -79,7 +107,68 @@ body {
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
+
+.examples {
+    background: #eaf3fc;
+    border-left: 4px solid #1767a0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    max-width: 250px;
+    margin-bottom: 1rem;
+}
+
+.upload-note {
+    font-size: 0.85rem;
+    color: #333333;
+    margin-top: 10px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    background-color: #f0f4f8;
+}
 </style>
+""", unsafe_allow_html=True)
+
+# --- LOGO SVG ---
+logo_svg = """
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;">
+  <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
+  <circle cx="35" cy="45" r="7" fill="black"/>
+  <circle cx="65" cy="45" r="7" fill="black"/>
+</svg>
+"""
+
+# --- HEADER ---
+st.markdown(f"""
+<div class="header">
+  {logo_svg}
+  <h1 class="title">Finley</h1>
+</div>
+""", unsafe_allow_html=True)
+
+st.markdown(
+    '<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', 
+    unsafe_allow_html=True
+)
+
+# --- SIDEBAR ---
+st.sidebar.markdown("## About Finley")
+st.sidebar.markdown("""
+Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
+- Centralized commentary engine
+- Tracks insights over time
+- Reduces knowledge loss and silos
+- Upload files or photos for Finley to remember and analyze for you
+""")
+st.sidebar.markdown("""
+<div class="examples">
+<strong>Examples of what you can share or ask:</strong><br>
+- “Why did sales dip in Q2 for the Northeast region?”<br>
+- “Explain the increase in marketing expenses last month.”<br>
+- “Notes on supply chain delays affecting inventory.”<br>
+- “Questions about forecast assumptions for next quarter.”<br>
+- “Comments on budget revisions or unusual costs.”<br>
+</div>
 """, unsafe_allow_html=True)
 
 # --- CHAT BOX ---
