@@ -1,28 +1,13 @@
 import streamlit as st
 
-# --- PAGE CONFIG ---
-st.set_page_config(
-    page_title="Finley",
-    layout="centered",
-    initial_sidebar_state="expanded"
-)
-
 # --- REMOVE SIDEBAR TOGGLE ---
 st.markdown("""
 <style>
 [data-testid="collapsedControl"] {
     display: none !important;
 }
-section[data-testid="stSidebar"], div[data-testid="stSidebar"] {
-    min-width: 320px !important;
-    width: 320px !important;
-}
 </style>
 """, unsafe_allow_html=True)
-
-# --- SIDEBAR CONTENT ---
-st.sidebar.title("Finley")
-st.sidebar.write("Your financial memory and assistant.")
 
 # --- CHAT BOX ---
 comment = st.text_area(
@@ -55,3 +40,4 @@ if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
     for s in reversed(st.session_state.submissions[-5:]):
         st.markdown(f"- {s['comment']}")
+
