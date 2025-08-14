@@ -3,10 +3,10 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    layout="wide"  # wider layout to fit columns
+    layout="centered"
 )
 
-# --- CUSTOM CSS (same as before, include styling for chat and file upload) ---
+# --- CUSTOM CSS ---
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
@@ -75,6 +75,10 @@ body {
     background-color: #125a7e !important;
 }
 
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
 .examples {
     background: #eaf3fc;
     border-left: 4px solid #1767a0;
@@ -128,68 +132,62 @@ st.markdown(f"""
 
 st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
-# --- LAYOUT USING COLUMNS ---
-col1, col2 = st.columns([1, 2])  # left column for info, right column for chat
+# --- SIDEBAR (no toggle) ---
+st.sidebar.markdown("## About Finley")
+st.sidebar.markdown("""
+Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
+- Centralized commentary engine
+- Tracks insights over time
+- Reduces knowledge loss and silos
+- Upload files or photos for Finley to remember and analyze for you
+""")
 
-with col1:
-    st.markdown("## About Finley")
-    st.markdown("""
-    Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
-    - Centralized commentary engine
-    - Tracks insights over time
-    - Reduces knowledge loss and silos
-    - Upload files or photos for Finley to remember and analyze for you
-    """)
-    st.markdown("""
-    <div class="examples">
-    <strong>Examples of what you can share or ask:</strong><br>
-    - “Why did sales dip in Q2 for the Northeast region?”<br>
-    - “Explain the increase in marketing expenses last month.”<br>
-    - “Notes on supply chain delays affecting inventory.”<br>
-    - “Questions about forecast assumptions for next quarter.”<br>
-    - “Comments on budget revisions or unusual costs.”<br>
-    </div>
-    """, unsafe_allow_html=True)
+st.sidebar.markdown("""
+<div class="examples">
+<strong>Examples of what you can share or ask:</strong><br>
+- “Why did sales dip in Q2 for the Northeast region?”<br>
+- “Explain the increase in marketing expenses last month.”<br>
+- “Notes on supply chain delays affecting inventory.”<br>
+- “Questions about forecast assumptions for next quarter.”<br>
+- “Comments on budget revisions or unusual costs.”<br>
+</div>
+""", unsafe_allow_html=True)
 
-with col2:
-    # Chat box
-    st.markdown('<div class="comment-box">', unsafe_allow_html=True)
-    comment = st.text_area(
-        "",
-        placeholder="Give Finley commentary or ask it questions here...",
-        key="comment_box",
-        height=120
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+# --- CHAT BOX ---
+st.markdown('<div class="comment-box">', unsafe_allow_html=True)
+comment = st.text_area(
+    "",
+    placeholder="Give Finley commentary or ask it questions here...",
+    key="comment_box",
+    height=120
+)
+st.markdown('</div>', unsafe_allow_html=True)
 
-    # File upload below chat box
-    st.markdown('<div class="file-upload-wrapper">', unsafe_allow_html=True)
-    uploaded_file = st.file_uploader(
-        "Drag and drop a file/photo here or click 'Browse'",
-        type=["jpg", "jpeg", "png", "pdf", "docx"],
-        key="file_upload"
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+# --- FILE UPLOAD BELOW CHAT BOX ---
+st.markdown('<div class="file-upload-wrapper">', unsafe_allow_html=True)
+uploaded_file = st.file_uploader(
+    "Drag and drop a file/photo here or click 'Browse'",
+    type=["jpg", "jpeg", "png", "pdf", "docx"],
+    key="file_upload"
+)
+st.markdown('</div>', unsafe_allow_html=True)
 
-    # Send button
-    if st.button("Send to Finley"):
-        if comment.strip() or uploaded_file:
-            if "submissions" not in st.session_state:
-                st.session_state.submissions = []
-            st.session_state.submissions.append({
-                "comment": comment,
-                "file": uploaded_file.name if uploaded_file else None
-            })
-            st.success("Memory saved")
-            st.session_state.comment_box = ""
-        else:
-            st.error("Please enter a comment or upload a file before sending.")
+# --- SEND TO FINLEY BUTTON ---
+if st.button("Send to Finley"):
+    if comment.strip() or uploaded_file:
+        if "submissions" not in st.session_state:
+            st.session_state.submissions = []
+        st.session_state.submissions.append({"comment": comment, "file": uploaded_file.name if uploaded_file else None})
+        st.success("Memory saved")
+        st.session_state.comment_box = ""  # Clear text area
+    else:
+        st.error("Please enter a comment or upload a file before sending.")
 
-    # Recent submissions
-    if "submissions" in st.session_state and st.session_state.submissions:
-        st.markdown("### Recent Submissions")
-        for s in reversed(st.session_state.submissions[-5:]):
-            display_text = f"- {s['comment']}"
-            if s["file"]:
-                display_text += f" (File: {s['file']})"
-            st.markdown(display_text)
+# --- RECENT SUBMISSIONS ---
+if "submissions" in st.session_state and st.session_state.submissions:
+    st.markdown("### Recent Submissions")
+    for s in reversed(st.session_state.submissions[-5:]):
+        display_text = f"- {s['comment']}"
+        if s["file"]:
+            display_text += f" (File: {s['file']})"
+        st.markdown(display_text)
