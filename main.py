@@ -166,26 +166,22 @@ if uploaded_file:
     st.success(f"Uploaded: {uploaded_file.name}")
 
 
+import streamlit as st
 
-# --- EXAMPLES BOX ---
-st.markdown("""
-<div class="examples">
-<strong>Examples of what you can share or ask:</strong><br>
-- “Why did sales dip in Q2 for the Northeast region?”<br>
-- “Explain the increase in marketing expenses last month.”<br>
-- “Notes on supply chain delays affecting inventory.”<br>
-- “Questions about forecast assumptions for next quarter.”<br>
-- “Comments on budget revisions or unusual costs.”<br>
-</div>
-""", unsafe_allow_html=True)
+# --- SIDEBAR ---
+st.sidebar.markdown("## About Finley")
+st.sidebar.markdown("""
+Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
+- Centralized commentary engine
+- Tracks insights over time
+- Reduces knowledge loss and silos
+""")
 
-
-
-# --- DESCRIPTION CARD ---
-st.markdown("""
-<div class="card">
-  <h3>About Finley</h3>
-  <p>Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers. It acts as a centralized commentary engine where month-end notes are stored, organized, and recalled intelligently across teams and time.</p>
-  <p>Finley reduces knowledge loss, prevents information silos, and bridges insights from field teams to executives.</p>
-</div>
-""", unsafe_allow_html=True)
+st.sidebar.markdown("### Examples of what you can share or ask:")
+st.sidebar.markdown("""
+- “Why did sales dip in Q2 for the Northeast region?”  
+- “Explain the increase in marketing expenses last month.”  
+- “Notes on supply chain delays affecting inventory.”  
+- “Questions about forecast assumptions for next quarter.”  
+- “Comments on budget revisions or unusual costs.”  
+""")
