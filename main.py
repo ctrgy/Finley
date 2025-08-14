@@ -172,14 +172,12 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 # --- CHAT BOX ---
-st.markdown('<div class="chat-box">', unsafe_allow_html=True)
 comment = st.text_area(
     "",
     placeholder="Give Finley commentary or ask it questions here...",
     key="comment_box",
     height=120
 )
-st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FILE UPLOAD BELOW CHAT BOX ---
 uploaded_file = st.file_uploader("Upload files/photos for Finley to remember or analyze", 
