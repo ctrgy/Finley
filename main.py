@@ -159,21 +159,75 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CHAT BOX WITH FILE UPLOAD ---
-st.markdown('<div class="chat-box">', unsafe_allow_html=True)
+# --- Chat Box Styling ---
+st.markdown("""
+<style>
+.chat-container {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.08);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.chat-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+.chat-textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1.5px solid #ccc;
+    padding: 10px;
+    font-size: 1.1rem;
+    min-height: 100px;
+    resize: vertical;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05);
+}
+.upload-btn {
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.upload-btn:hover {
+    background-color: #125a7e;
+}
+.send-btn {
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.7rem 2.2rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.send-btn:hover {
+    background-color: #125a7e;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# File uploader inside chat box (drag & drop + click)
-uploaded_file = st.file_uploader("", type=["jpg","jpeg","png","pdf","docx"], key="file", label_visibility="collapsed")
+# --- Chat Box Container ---
+st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 
-# Text area
-comment = st.text_area("", placeholder="Give Finley commentary, upload files/photos, or ask it questions here...", key="comment", height=120)
+# --- File Upload on Top Right ---
+col1, col2 = st.columns([8,1])
+with col1:
+    comment = st.text_area("", placeholder="Give Finley commentary, upload files/photos, or ask it questions here...", key="comment_box")
+with col2:
+    uploaded_file = st.file_uploader("Upload File", type=["jpg","jpeg","png","pdf","docx"], key="file_upload")
 
-# Upload button inside chat box (top-right corner)
-st.markdown('<button class="upload-btn" onclick="">UPLOAD FILE</button>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# Save button below chat box
+# --- Save/Send Button ---
 if st.button("Save to Finley"):
     if comment.strip() or uploaded_file:
         if "submissions" not in st.session_state:
@@ -182,15 +236,16 @@ if st.button("Save to Finley"):
             "comment": comment,
             "file": uploaded_file.name if uploaded_file else None
         })
-        st.success("Memory saved")
-        st.session_state.comment = ""  # Clear text area
-        st.session_state.file = None
+        st.success("Memory saved!")
+        st.session_state.comment_box = ""  # Clear text area
     else:
         st.error("Please enter a comment or upload a file before saving.")
 
-# --- RECENT SUBMISSIONS ---
+st.markdown('</div>', unsafe_allow_html=True)
+
+# --- Recent Submissions ---
 if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
     for s in reversed(st.session_state.submissions[-5:]):
-        file_note = f" (Uploaded: {s['file']})" if s['file'] else ""
-        st.markdown(f"- {s['comment']}{file_note}")
+        file_text = f" (File: {s['file']})" if s['file'] else ""
+        st.markdown(f"- {s['comment']}{file_text}")
