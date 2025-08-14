@@ -144,6 +144,7 @@ Finley remembers not just what happened, but why — helping your finance team t
 - Centralized commentary engine
 - Tracks insights over time
 - Reduces knowledge loss and silos
+- Upload files or photos for Finley to remember and analyze for you
 """)
 
 st.sidebar.markdown("""
@@ -157,11 +158,6 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.sidebar.markdown("""
-<div class="upload-note">
-You can upload files or photos for Finley to remember or analyze for you.
-</div>
-""", unsafe_allow_html=True)
 
 # --- COMMENT INPUT & FILE UPLOAD ---
 st.markdown('<div class="comment-box">', unsafe_allow_html=True)
