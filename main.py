@@ -142,7 +142,7 @@ st.set_page_config(
 hide_sidebar_style = """
     <style>
         [data-testid="collapsedControl"] {
-            display: none;
+            display: none !important;
         }
     </style>
 """
