@@ -167,24 +167,30 @@ st.markdown("""
 
 import streamlit as st
 
-# --- FILE / PHOTO UPLOAD BOX ---
+import streamlit as st
+
+# --- DRAG & DROP STYLE UPLOAD BOX ---
 st.markdown("""
 <div style="
-    border: 2px dashed #ccc;
-    padding: 1rem;
+    border: 2px dashed #aaa;
+    padding: 1.5rem;
     text-align: center;
     font-size: 18px;
     border-radius: 8px;
     background-color: #f9f9f9;
+    margin-bottom: 10px;
 ">
-    <strong>Add File</strong> or <strong>Add Photo</strong><br>
-    <span style="font-size:14px; color:#555;">Click below to choose a file</span>
+    <strong>Drag and drop file or photo here</strong><br>
+    <span style="font-size:14px; color:#666;">or click below to select</span>
 </div>
 """, unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("", type=["jpg", "jpeg", "png", "pdf", "docx"])
+
 if uploaded_file:
     st.success(f"Uploaded: {uploaded_file.name}")
+else:
+    st.button("Upload")
 
 
 # --- DESCRIPTION CARD ---
