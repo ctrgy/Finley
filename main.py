@@ -1,6 +1,9 @@
 import streamlit as st
 
-st.set_page_config(initial_sidebar_state="expanded")
+st.set_page_config(page_title="Finley - Your Financial Memory",
+                   layout="centered",
+                   initial_sidebar_state="expanded")
+
 
 # --- PAGE SETUP ---
 st.set_page_config(
