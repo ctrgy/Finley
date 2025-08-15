@@ -3,7 +3,7 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    layout="centered"
+    layout="wide"
 )
 
 # --- CUSTOM CSS ---
@@ -75,10 +75,6 @@ body {
     background-color: #125a7e !important;
 }
 
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-
 .examples {
     background: #eaf3fc;
     border-left: 4px solid #1767a0;
@@ -110,6 +106,9 @@ header {visibility: hidden;}
 .file-upload-wrapper input[type="file"] {
     margin-top: 8px;
 }
+
+/* Hide Streamlit default sidebar toggle completely */
+.css-1d391kg {display: none !important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -132,7 +131,7 @@ st.markdown(f"""
 
 st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
-# --- SIDEBAR (no toggle) ---
+# --- SIDEBAR CONTENT ---
 st.sidebar.markdown("## About Finley")
 st.sidebar.markdown("""
 Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
@@ -154,32 +153,31 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 # --- CHAT BOX ---
-st.markdown('<div class="comment-box">', unsafe_allow_html=True)
 comment = st.text_area(
     "",
     placeholder="Give Finley commentary or ask it questions here...",
     key="comment_box",
     height=120
 )
-st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FILE UPLOAD BELOW CHAT BOX ---
-st.markdown('<div class="file-upload-wrapper">', unsafe_allow_html=True)
 uploaded_file = st.file_uploader(
-    "Drag and drop a file/photo here or click 'Browse'",
+    "Upload File/Photo",
     type=["jpg", "jpeg", "png", "pdf", "docx"],
     key="file_upload"
 )
-st.markdown('</div>', unsafe_allow_html=True)
 
-# --- SEND TO FINLEY BUTTON ---
+# --- SAVE COMMENT BUTTON ---
 if st.button("Send to Finley"):
     if comment.strip() or uploaded_file:
         if "submissions" not in st.session_state:
             st.session_state.submissions = []
-        st.session_state.submissions.append({"comment": comment, "file": uploaded_file.name if uploaded_file else None})
+        st.session_state.submissions.append({
+            "comment": comment,
+            "file": uploaded_file.name if uploaded_file else None
+        })
         st.success("Memory saved")
-        st.session_state.comment_box = ""  # Clear text area
+        st.session_state.comment_box = ""  # Clear text area after sending
     else:
         st.error("Please enter a comment or upload a file before sending.")
 
