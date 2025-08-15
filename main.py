@@ -3,7 +3,7 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    layout="centered"
+    layout="wide"
 )
 
 # --- CUSTOM CSS ---
