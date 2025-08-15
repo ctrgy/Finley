@@ -3,7 +3,7 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    layout="centered"
+    layout="wide"
 )
 
 # --- CUSTOM CSS ---
@@ -20,7 +20,6 @@ body {
 .header {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 15px;
     margin-bottom: 1rem;
 }
@@ -39,9 +38,6 @@ body {
     font-size: 1.2rem;
     margin-top: -10px;
     margin-bottom: 2rem;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .comment-box textarea {
@@ -53,24 +49,6 @@ body {
     resize: vertical !important;
     min-height: 120px !important;
     box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
-}
-
-.upload-btn {
-    background-color: #1767a0;
-    color: white;
-    border: none;
-    padding: 0.7rem 2.2rem;
-    font-weight: 700;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 8px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.upload-btn:hover {
-    background-color: #125a7e;
 }
 
 .stButton > button {
@@ -142,9 +120,9 @@ Finley remembers not just what happened, but why — helping your finance team t
 - Upload files or photos for Finley to remember or analyze
 """)
 
+st.sidebar.markdown("### Examples")
 st.sidebar.markdown("""
 <div class="examples">
-<strong>Examples of what you can share or ask:</strong><br>
 - “Why did sales dip in Q2 for the Northeast region?”<br>
 - “Explain the increase in marketing expenses last month.”<br>
 - “Notes on supply chain delays affecting inventory.”<br>
@@ -170,17 +148,20 @@ uploaded_file = st.file_uploader(
 
 # --- SEND COMMENT BUTTON ---
 if st.button("Send to Finley"):
-    if comment.strip():
+    if comment.strip() or uploaded_file:
         if "submissions" not in st.session_state:
             st.session_state.submissions = []
-        st.session_state.submissions.append({"comment": comment})
+        st.session_state.submissions.append({"comment": comment, "file": uploaded_file.name if uploaded_file else None})
         st.success("Memory saved")
         st.session_state.comment_box = ""  # Clear text area
     else:
-        st.error("Please enter a comment before sending.")
+        st.error("Please enter a comment or upload a file before sending.")
 
 # --- RECENT SUBMISSIONS ---
 if "submissions" in st.session_state and st.session_state.submissions:
     st.markdown("### Recent Submissions")
     for s in reversed(st.session_state.submissions[-5:]):
-        st.markdown(f"- {s['comment']}")
+        line = f"- {s['comment']}" if s['comment'] else ""
+        if s.get("file"):
+            line += f" (Uploaded: {s['file']})"
+        st.markdown(line)
