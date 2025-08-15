@@ -3,20 +3,129 @@ import streamlit as st
 # --- PAGE SETUP ---
 st.set_page_config(
     page_title="Finley - Your Financial Memory",
-    layout="centered"  # keep centered, toggle sidebar remains default
+    layout="centered"
 )
+
+# --- CUSTOM CSS ---
+st.markdown("""
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #f5f7fa;
+    color: #222222;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1767a0;
+    margin: 0;
+}
+
+.tagline {
+    text-align: center;
+    color: #555555;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.comment-box textarea {
+    border-radius: 10px !important;
+    border: 1.5px solid #ccc !important;
+    padding: 12px !important;
+    font-size: 1.1rem !important;
+    font-family: 'Montserrat', sans-serif !important;
+    resize: vertical !important;
+    min-height: 120px !important;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.05) !important;
+}
+
+.upload-btn {
+    background-color: #1767a0;
+    color: white;
+    border: none;
+    padding: 0.7rem 2.2rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.upload-btn:hover {
+    background-color: #125a7e;
+}
+
+.stButton > button {
+    background-color: #1767a0 !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 0.7rem 2.2rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.stButton > button:hover {
+    background-color: #125a7e !important;
+}
+
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+
+.examples {
+    background: #eaf3fc;
+    border-left: 4px solid #1767a0;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    max-width: 250px;
+    margin-bottom: 1rem;
+}
+
+.upload-note {
+    font-size: 0.85rem;
+    color: #333333;
+    margin-top: 10px;
+    padding: 5px 8px;
+    border-radius: 5px;
+    background-color: #f0f4f8;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # --- HEADER ---
 st.markdown("""
-<h1 style='text-align: center; color: #1767a0; font-family: Montserrat;'>
-Finley
-</h1>
-<div style='text-align: center; color: #555555; max-width: 700px; margin: auto;'>
-An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.
+<div class="header">
+    <h1 class="title">Finley</h1>
+    <div class="tagline">
+    An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
-# --- SIDEBAR CONTENT ---
+# --- SIDEBAR ---
 st.sidebar.markdown("## About Finley")
 st.sidebar.markdown("""
 Finley remembers not just what happened, but why — helping your finance team tell the story behind the numbers.
@@ -27,7 +136,7 @@ Finley remembers not just what happened, but why — helping your finance team t
 """)
 
 st.sidebar.markdown("""
-<div style='background: #eaf3fc; border-left: 4px solid #1767a0; padding: 10px; border-radius: 6px; font-size: 0.9rem;'>
+<div class="examples">
 <strong>Examples of what you can share or ask:</strong><br>
 - “Why did sales dip in Q2 for the Northeast region?”<br>
 - “Explain the increase in marketing expenses last month.”<br>
@@ -37,13 +146,15 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- CHAT BOX ---
+# --- COMMENT BOX ---
+st.markdown('<div class="comment-box">', unsafe_allow_html=True)
 comment = st.text_area(
     "",
     placeholder="Give Finley commentary or ask it questions here...",
     key="comment_box",
     height=120
 )
+st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FILE UPLOAD BELOW CHAT BOX ---
 uploaded_file = st.file_uploader(
@@ -52,7 +163,7 @@ uploaded_file = st.file_uploader(
     key="file_upload"
 )
 
-# --- SEND BUTTON ---
+# --- SEND TO FINLEY BUTTON ---
 if st.button("Send to Finley"):
     if comment.strip():
         if "submissions" not in st.session_state:
