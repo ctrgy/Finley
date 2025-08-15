@@ -18,7 +18,10 @@ body {
 }
 
 .header {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
     margin-bottom: 1rem;
 }
 
@@ -26,6 +29,7 @@ body {
     font-size: 3rem;
     font-weight: 700;
     color: #1767a0;
+    letter-spacing: 1.2px;
     margin: 0;
 }
 
@@ -33,7 +37,7 @@ body {
     text-align: center;
     color: #555555;
     font-size: 1.2rem;
-    margin-top: 0.5rem;
+    margin-top: -10px;
     margin-bottom: 2rem;
     max-width: 700px;
     margin-left: auto;
@@ -65,7 +69,6 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
-
 .upload-btn:hover {
     background-color: #125a7e;
 }
@@ -85,19 +88,14 @@ body {
     margin-right: auto;
     margin-top: 10px;
 }
-
 .stButton > button:hover {
     background-color: #125a7e !important;
 }
 
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-
 .examples {
     background: #eaf3fc;
     border-left: 4px solid #1767a0;
-    padding: 10px;
+    padding: 10px 12px;
     border-radius: 6px;
     font-size: 0.9rem;
     max-width: 250px;
@@ -115,15 +113,24 @@ header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
+# --- LOGO SVG ---
+logo_svg = """
+<svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="50,5 95,50 50,95 5,50" fill="white" stroke="black" stroke-width="4"/>
+  <circle cx="35" cy="45" r="7" fill="black"/>
+  <circle cx="65" cy="45" r="7" fill="black"/>
+</svg>
+"""
+
 # --- HEADER ---
-st.markdown("""
+st.markdown(f"""
 <div class="header">
-    <h1 class="title">Finley</h1>
-    <div class="tagline">
-    An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.
-    </div>
+  {logo_svg}
+  <h1 class="title">Finley</h1>
 </div>
 """, unsafe_allow_html=True)
+
+st.markdown('<div class="tagline">An AI-powered memory and narrative system built for FP&A teams. Finley consolidates financial commentary across your organization, tracks evolving insights over time, and surfaces relevant context when you need it.</div>', unsafe_allow_html=True)
 
 # --- SIDEBAR ---
 st.sidebar.markdown("## About Finley")
@@ -132,7 +139,7 @@ Finley remembers not just what happened, but why — helping your finance team t
 - Centralized commentary engine
 - Tracks insights over time
 - Reduces knowledge loss and silos
-- Upload files or photos for Finley to remember and analyze
+- Upload files or photos for Finley to remember or analyze
 """)
 
 st.sidebar.markdown("""
@@ -146,15 +153,13 @@ st.sidebar.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- COMMENT BOX ---
-st.markdown('<div class="comment-box">', unsafe_allow_html=True)
+# --- CHAT BOX ---
 comment = st.text_area(
     "",
     placeholder="Give Finley commentary or ask it questions here...",
     key="comment_box",
     height=120
 )
-st.markdown('</div>', unsafe_allow_html=True)
 
 # --- FILE UPLOAD BELOW CHAT BOX ---
 uploaded_file = st.file_uploader(
@@ -163,7 +168,7 @@ uploaded_file = st.file_uploader(
     key="file_upload"
 )
 
-# --- SEND TO FINLEY BUTTON ---
+# --- SEND COMMENT BUTTON ---
 if st.button("Send to Finley"):
     if comment.strip():
         if "submissions" not in st.session_state:
